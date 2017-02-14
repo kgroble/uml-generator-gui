@@ -25,5 +25,4 @@ public class UnderscoreFieldPattern extends Pattern {
         }
         return ret;
     }
-
 }

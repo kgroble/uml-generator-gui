@@ -1,0 +1,4 @@
+patterns = patterns.IdentityPattern; DemeterViolationPattern patterns.ColorPatternDecorator(green)
+recursive = false;
+exporter = exporters.FileExporter(./out.dot)
+include = Foo java.lang.String java.lang.Integer
