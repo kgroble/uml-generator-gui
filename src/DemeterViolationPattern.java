@@ -14,7 +14,8 @@ import graph.Graph;
 import patterns.Pattern;
 
 public class DemeterViolationPattern extends Pattern {
-
+    private boolean logging = false;
+    
     @Override
     public Graph detect(Graph graphToSearch) {
         Graph ret = new Graph();
@@ -38,7 +39,6 @@ public class DemeterViolationPattern extends Pattern {
                         String typeName = fieldNode.desc.substring(1, fieldNode.desc.length() - 1).replace('/', '.');
                         fieldClasses.add(Class.forName(typeName));
                     } catch (ClassNotFoundException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -58,7 +58,6 @@ public class DemeterViolationPattern extends Pattern {
                             Class<?> klass = Class.forName(argType.substring(1).replace('/',  '.'));
                             subclassGoodClasses.add(klass);
                         } catch (ClassNotFoundException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     }
@@ -74,7 +73,6 @@ public class DemeterViolationPattern extends Pattern {
                                     Class<?> klass = Class.forName(insn.owner.replace('/',  '.'));
                                     goodClasses.add(klass);
                                 } catch (ClassNotFoundException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
 
@@ -99,8 +97,8 @@ public class DemeterViolationPattern extends Pattern {
                                 
                                 boolean safeCall = false;
                                 for (Class<?> klass : subclassGoodClasses) {
-//                                    System.out.println(klass.getName() + " - " + insnClass.getName());
-                                    if (klass.isAssignableFrom(insnClass)) {
+                                    if (klass.isAssignableFrom(insnClass)
+                                            || insnClass.isAssignableFrom(cellClass)) {
                                         safeCall = true;
                                         break;
                                     }
@@ -110,9 +108,12 @@ public class DemeterViolationPattern extends Pattern {
                                     continue;
                                 }
                                 
+                                
                                 badClasses.add(insnClass.getName());
+                                if (logging) {
+                                    System.out.println("Violation in class " + c.getName() + ", method " + methodNode.name + " calling " + insn.name + " on " + insn.owner);
+                                }
                             } catch (ClassNotFoundException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
 
@@ -130,6 +131,13 @@ public class DemeterViolationPattern extends Pattern {
         
         
         return ret;
+    }
+    
+    @Override
+    public void setArgs(String[] args){
+        if (args.length > 0){
+            logging = args[0].equals("true");            
+        }
     }
 
 }

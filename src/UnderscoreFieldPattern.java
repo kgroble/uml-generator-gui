@@ -1,5 +1,3 @@
-import java.util.List;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;
 
