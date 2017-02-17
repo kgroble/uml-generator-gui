@@ -1,4 +1,5 @@
-patterns = patterns.IdentityPattern; UnderscoreFieldPattern patterns.ColorPatternDecorator(deeppink)
-recursive = false;
-exporter = exporters.FileExporter(./out.dot)
+recursive = false
 include = UnderscoreFieldPattern java.io.InputStreamReader java.io.InputStream java.io.OutputStreamWriter java.io.OutputStream java.io.Reader java.io.Writer java.awt.event.MouseAdapter java.awt.event.MouseListener java.awt.event.MouseEvent sun.nio.cs.StreamDecoder
+patterns = patterns.IdentityPattern; UnderscoreFieldPattern patterns.ColorPatternDecorator(deeppink)
+access = public
+exporter = ImageExporter(./output/iomouse)

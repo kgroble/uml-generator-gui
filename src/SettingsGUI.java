@@ -1,5 +1,9 @@
 import client.ConfigSettings;
 import graph.AccessLevel;
+import graph.Graph;
+import graph.GraphGenDecorator;
+import graph.GraphGenerator;
+
 import org.omg.PortableInterceptor.ACTIVE;
 
 import javax.imageio.ImageIO;
@@ -10,6 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -18,6 +28,8 @@ import java.util.Vector;
 public class SettingsGUI {
     private final String TITLE = "UML Generator";
     private JFrame mainFrame;
+    private String settingsPath;
+    private AccessLevel origAccess;
 
     private class ImagePanel extends JPanel {
         private Image img;
@@ -32,9 +44,14 @@ public class SettingsGUI {
         }
     }
 
+    public SettingsGUI(String settingsPath) {
+        this.settingsPath = settingsPath;
+    }
+
     public void launch(Runnable goCommand) {
         mainFrame = new JFrame(TITLE);
         mainFrame.setLayout(new BorderLayout());
+        mainFrame.setSize(1000, 800);
         JPanel controlPanel = new JPanel(new BorderLayout());
         JPanel listsPanel = new JPanel(new GridLayout());
         JPanel whiteListPanel = new JPanel(new BorderLayout());
@@ -103,6 +120,8 @@ public class SettingsGUI {
 
         AccessLevel[] visibilities = {AccessLevel.PRIVATE, AccessLevel.PROTECTED, AccessLevel.PUBLIC};
         JComboBox<AccessLevel> accessBox = new JComboBox<>(visibilities);
+        origAccess = ConfigSettings.getAccessLevel();
+        accessBox.setSelectedItem(origAccess);
         accessBox.setLightWeightPopupEnabled(false);
         checkboxPanel.add(accessBox);
         Checkbox recurseCB = new Checkbox("Render recursively");
@@ -112,7 +131,50 @@ public class SettingsGUI {
 
         JButton goButton = new JButton("GO!");
         goButton.addActionListener(actionEvent -> {
-            ConfigSettings.setAccessLevel((AccessLevel) accessBox.getSelectedItem());
+            AccessLevel newAccess = (AccessLevel) accessBox.getSelectedItem();
+            if (newAccess != origAccess) {
+                List<String> savedWL = new ArrayList<>();
+                List<String> savedBL = new ArrayList<>();
+                
+                for (String entry : ConfigSettings.getBlackList()) {
+                    savedBL.add(entry);
+                }
+                for (String entry : ConfigSettings.getWhiteList()) {
+                    savedWL.add(entry);
+                }
+                
+                byte[] file;
+                try {
+                    file = Files.readAllBytes(Paths.get(settingsPath));
+                    String settingsString = new String(file);
+                    if (settingsString.contains("access = ")) {
+                        settingsString = settingsString.replaceAll("access = [^\\n]*\\n", "access = " + newAccess.toString().toLowerCase() + "\n");
+                    } else {
+                        settingsString += "access = " + newAccess.toString().toLowerCase() + "\n";
+                    }
+                    PrintWriter propFile = new PrintWriter(settingsPath);
+                    propFile.print(settingsString);
+                    propFile.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+                try {
+                    ConfigSettings.setupConfig(new String[] {("--settings=" + settingsPath)});
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+                List<String> freshWL = ConfigSettings.getWhiteList();
+                List<String> freshBL = ConfigSettings.getBlackList();
+                
+                ConfigSettings.removeFromBlackList(freshBL);
+                ConfigSettings.addToBlackList(savedBL);
+                ConfigSettings.removeFromWhiteList(freshWL);
+                ConfigSettings.addToWhiteList(savedWL);
+            }
+            
+            
             ConfigSettings.setIsRecursive(recurseCB.getState());
             ConfigSettings.setShowSynthetic(syntheticCB.getState());
             mainFrame.dispose();
@@ -140,4 +202,5 @@ public class SettingsGUI {
         mainFrame = new JFrame(TITLE);
         mainFrame.add(new ImagePanel(ImageIO.read(ClassLoader.getSystemClassLoader().getResource(imgPath))));
     }
+    
 }

@@ -32,7 +32,7 @@ public class RemoteUMLGeneratorApp {
         }
 
         // CALL GUI
-        SettingsGUI gui = new SettingsGUI();
+        SettingsGUI gui = new SettingsGUI(passedArgs[0].substring(11));
         gui.launch(() -> {
             GraphGenerator generator = ConfigSettings.getGenerator();
 
