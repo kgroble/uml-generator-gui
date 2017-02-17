@@ -4,6 +4,7 @@ public class Bar {
     private Integer i;
     
     public void invalidMethod() {
+        String.format("abc");
         "abc".length();
         i.getClass().getName();
     }

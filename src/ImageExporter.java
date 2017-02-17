@@ -26,8 +26,8 @@ public class ImageExporter extends Exporter {
         try {
             Process p = Runtime.getRuntime().exec("gvedit " + rootName + ".dot");
 //            Process p = Runtime.getRuntime().exec("dot " + rootName + ".dot" + " -o " + rootName + ".png");
-            p.waitFor();
-        } catch (IOException | InterruptedException e) {
+//            p.waitFor();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
