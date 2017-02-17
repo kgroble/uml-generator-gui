@@ -123,7 +123,8 @@ public class DemeterViolationPattern extends Pattern {
             }
             
             for (Edge e : c.getEdges()) {
-                if (badClasses.contains(e.getDestination().getName().replace('/', '.'))) {
+                if (badClasses.contains(e.getDestination().getName().replace('/', '.'))
+                        && e.getRelation() == Edge.Relation.DEPENDS) {
                     ret.addEdge(e);
                 }
             }
