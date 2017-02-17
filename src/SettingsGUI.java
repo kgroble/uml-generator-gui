@@ -125,8 +125,10 @@ public class SettingsGUI {
         accessBox.setLightWeightPopupEnabled(false);
         checkboxPanel.add(accessBox);
         Checkbox recurseCB = new Checkbox("Render recursively");
+        recurseCB.setState(ConfigSettings.getRecursive());
         checkboxPanel.add(recurseCB);
         Checkbox syntheticCB = new Checkbox("Render synthetics");
+        syntheticCB.setState(ConfigSettings.getShowSynthetic());
         checkboxPanel.add(syntheticCB);
 
         JButton goButton = new JButton("GO!");

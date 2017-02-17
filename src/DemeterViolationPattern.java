@@ -110,7 +110,7 @@ public class DemeterViolationPattern extends Pattern {
                                 
                                 
                                 badClasses.add(insnClass.getName());
-                                if (logging) {
+                                if (logging && graphToSearch.getCellNames().contains(insn.owner)) {
                                     System.out.println("Violation in class " + c.getName() + ", method " + methodNode.name + " calling " + insn.name + " on " + insn.owner);
                                 }
                             } catch (ClassNotFoundException e) {

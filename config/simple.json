@@ -1,0 +1,7 @@
+{
+	"patterns" : "patterns.IdentityPattern; UnderscoreFieldPattern patterns.ColorPatternDecorator(deeppink); DemeterViolationPattern(true) patterns.ColorPatternDecorator(orangered)",
+	"recursive" : "false",
+	"access" : "private",
+	"exporter" : "ImageExporter(./output/simple)",
+	"include" : "Foo Bar java.lang.Integer java.lang.String"
+}

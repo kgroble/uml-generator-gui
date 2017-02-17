@@ -5,9 +5,7 @@ import graph.ClassCell;
 import graph.Graph;
 import patterns.Pattern;
 
-public class UnderscoreFieldPattern extends Pattern {
-    private int hello_world;
-    
+public class UnderscoreFieldPattern extends Pattern {    
     @Override
     public Graph detect(Graph graphToSearch) {
         Graph ret = new Graph();

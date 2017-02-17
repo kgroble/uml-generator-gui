@@ -1,0 +1,5 @@
+recursive = false
+include = Foo Bar java.lang.Integer java.lang.String
+patterns = patterns.IdentityPattern; UnderscoreFieldPattern patterns.ColorPatternDecorator(deeppink); DemeterViolationPattern(true) patterns.ColorPatternDecorator(orangered)
+access = private
+exporter = ImageExporter(./output/simple)

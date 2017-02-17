@@ -1,0 +1,5 @@
+recursive = false
+synthetic = false
+include = ImageExporter JSONConverter RemoteUMLGeneratorApp SettingsGUI DemeterViolationPattern UnderscoreFieldPattern client.UMLGeneratorApp client.ConfigSettings exporters.Exporter exporters.FileExporter graph.AccessLevel graph.AssociationGraphGen graph.ClassCell graph.Edge graph.Field graph.Graph graph.GraphGenDecorator graph.GraphGenerator graph.ImplementsGraphGen graph.SignatureParser graph.SuperGraphGen graphviz.GraphvizEdge graphviz.GraphvizElement graphviz.GraphvizGlobalParams graphviz.GraphvizNode patterns.AdapterPattern patterns.AssociationPattern patterns.DecoratorPattern patterns.DependencyPattern patterns.IdentityPattern patterns.InheritancePattern patterns.MalformedDecoratorPattern patterns.ColorPatternDecorator patterns.Parser patterns.Pattern
+patterns = patterns.IdentityPattern; UnderscoreFieldPattern patterns.ColorPatternDecorator(deeppink); DemeterViolationPattern(true) patterns.ColorPatternDecorator(orangered)
+exporter = ImageExporter(./output/this_project)
