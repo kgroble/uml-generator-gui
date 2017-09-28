@@ -1,7 +1,17 @@
-![UML](http://i.imgur.com/nWZANfA.png)
+# UML Generation and Class Design Analysis tool
 
-# Team member contributions
-## Joe
+* Analyzes Java Class objects at runtime
+* Creates UML diagrams using Graphviz Dot
+* Can be configured to detect and highlight design features (e.g., correct or incorrect implementations of common design patterns)
+
+
+![UML](http://i.imgur.com/nWZANfA.png)
+This project run on itself.
+
+
+
+## Team member contributions
+### Joe
 * Added functionality to Pattern.toGraphviz() so it recognizes fields and methods.
 * Repackaged everything.
 * Added Association Pattern functionality.
@@ -16,7 +26,7 @@
 * The King of Swing.
 
 
-## Kieran
+### Kieran
 * Initial class skeletons
 * Added detection and display of "implements" relations
 * Parse and display class names
@@ -28,7 +38,7 @@
 * Adapter, Decorator, Bad Decorator detection implementatio
 
 
-## Lewis
+### Lewis
 * Wrote extensive parser up to generating Graphviz code.
 * Created base style for the graph generator decorators.
 * Updated Javadoc comments.
